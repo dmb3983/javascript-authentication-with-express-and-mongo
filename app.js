@@ -6,7 +6,7 @@ var MongoStore = require('connect-mongo')(session);
 var app = express();
 
 // mongodb connection
-mongoose.connect("mongodb://localhost:27017/bookworm");
+mongoose.connect("mongodb://dbadmin:dbadmin@ds135252.mlab.com:35252/gamers");
 var db = mongoose.connection;
 // mongo error
 db.on('error', console.error.bind(console, 'connection error:'));

@@ -1,5 +1,11 @@
 var mongoose = require('mongoose');
 var bcrypt = require('bcrypt');
+const validator = require('validator');
+const mongodbErrorHandler = require('mongoose-mongodb-errors');
+const passportLocalMongoose = require('passport-local-mongoose');
+const Schema = mongoose.Schema;
+mongoose.Promise = global.Promise;
+
 var UserSchema = new mongoose.Schema({
     email: {
       type: String,
@@ -12,7 +18,7 @@ var UserSchema = new mongoose.Schema({
       required: true,
       trim: true
     },
-    favoriteBook: {
+    username: {
       type: String,
       required: true,
       trim: true
@@ -42,6 +48,7 @@ UserSchema.statics.authenticate = function(email, password, callback) {
         })
       });
 }
+
 // hash password before saving to database
 UserSchema.pre('save', function(next) {
   var user = this;
@@ -53,5 +60,10 @@ UserSchema.pre('save', function(next) {
     next();
   })
 });
+
+UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
+UserSchema.plugin(mongodbErrorHandler);
+
+
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

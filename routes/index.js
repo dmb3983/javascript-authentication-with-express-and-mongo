@@ -63,7 +63,7 @@ router.get('/register', mid.loggedOut, function(req, res, next) {
 router.post('/register', function(req, res, next) {
   if (req.body.email &&
     req.body.name &&
-    req.body.favoriteBook &&
+    req.body.username &&
     req.body.password &&
     req.body.confirmPassword) {
 
@@ -78,7 +78,7 @@ router.post('/register', function(req, res, next) {
       var userData = {
         email: req.body.email,
         name: req.body.name,
-        favoriteBook: req.body.favoriteBook,
+        username: req.body.username,
         password: req.body.password
       };
 
