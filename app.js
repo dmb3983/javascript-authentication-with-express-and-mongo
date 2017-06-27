@@ -1,19 +1,21 @@
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var session = require('express-session');
-var MongoStore = require('connect-mongo')(session);
-var app = express();
+const express = require('express');
+const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
+const mongodb             = require('./config/db');
+const app = express();
 
 // mongodb connection
-mongoose.connect("mongodb://dbadmin:dbadmin@ds135252.mlab.com:35252/gamers");
-var db = mongoose.connection;
+mongoose.connect(mongodb.url);
+const db = mongoose.connection;
+
 // mongo error
 db.on('error', console.error.bind(console, 'connection error:'));
 
 // use sessions for tracking logins
 app.use(session({
-  secret: 'treehouse loves you',
+  secret: 'testing my api43',
   resave: true,
   saveUninitialized: false,
   store: new MongoStore({

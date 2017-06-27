@@ -1,12 +1,12 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt');
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 const validator = require('validator');
 const mongodbErrorHandler = require('mongoose-mongodb-errors');
 const passportLocalMongoose = require('passport-local-mongoose');
 const Schema = mongoose.Schema;
 mongoose.Promise = global.Promise;
 
-var UserSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
     email: {
       type: String,
       unique: true,
@@ -28,6 +28,7 @@ var UserSchema = new mongoose.Schema({
       required: true
     }
 });
+
 // authenticate input against database documents
 UserSchema.statics.authenticate = function(email, password, callback) {
   User.findOne({ email: email })
@@ -52,6 +53,10 @@ UserSchema.statics.authenticate = function(email, password, callback) {
 // hash password before saving to database
 UserSchema.pre('save', function(next) {
   var user = this;
+  if (user.email) {
+    return next('Email already exists');
+  }
+
   bcrypt.hash(user.password, 10, function(err, hash) {
     if (err) {
       return next(err);
@@ -64,6 +69,4 @@ UserSchema.pre('save', function(next) {
 UserSchema.plugin(passportLocalMongoose, { usernameField: 'email' });
 UserSchema.plugin(mongodbErrorHandler);
 
-
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+module.exports = mongoose.model('User', UserSchema);

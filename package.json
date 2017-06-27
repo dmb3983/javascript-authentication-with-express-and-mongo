@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "start": "node ./app",
-    "watch": "nodemon ./start.js --ignore public/"
+    "dev": "nodemon ./start.js --ignore public/"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
@@ -17,11 +17,14 @@
     "express-validator": "^3.1.2",
     "mongoose": "^4.10.8",
     "mongoose-mongodb-errors": "0.0.2",
-    "nodemon": "^1.11.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^4.0.0",
     "pug": "^2.0.0-beta2"
   },
+  "dev-dependencies": {
+    "nodemon": "^1.11.0"
+  },
+  
   "license": "MIT"
 }
